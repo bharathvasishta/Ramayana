@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>South Asia Map Chart</title>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script> -->
+  <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<style>
+    #container {
+    height: 600px;
+    min-width: 310px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+}
+
+.ttImage{
+    width: 200px;
+    height: 200px;
+}
+
+.carousel-wrapper {
+  width: 400px;
+  /* height: 350px; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* box-shadow: 5px 5px 25px 0px rgba(46, 61, 73, 0.2); */
+  /* border-radius: 20px; */
+  /* margin: 100px auto 20px; */
+}
+
+.carousel-container {
+  width: 400px;
+  height: 450px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.carousel {
+  display: flex;
+  width: 1200px;
+  animation: sliding 3s infinite;
+}
+.carousel div {
+  width: 400px;
+  height: 450px;
+  background-size: cover;
+  background-position: center;
+}
+.carousel:hover {
+  animation-play-state: paused;
+}
+.carousel .image-one {
+  
+}
+.carousel .image-two {
+  /* background-image: url("https://images.unsplash.com/photo-1475053081036-c8eb31d187b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"); */
+}
+.carousel .image-three {
+  /* background-image: url("https://images.unsplash.com/photo-1525278070609-779c7adb7b71?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"); */
+}
+
+@keyframes sliding {
+  30% {
+    transform: translateX(0);
+  }
+  35% {
+    transform: translateX(-400px);
+  }
+  65% {
+    transform: translateX(-400px);
+  }
+  70% {
+    transform: translateX(-800px);
+  }
+  98% {
+    transform: translateX(-800px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@media screen and (max-width: 768px) {
+  .carousel-wrapper {
+    width: 312px;
+    height: 210px;
+  }
+
+  .carousel-container {
+    width: 240px;
+    height: 150px;
+  }
+
+  .carousel {
+    width: 720px;
+  }
+  .carousel > div {
+    width: 240px;
+    height: 150px;
+  }
+
+  @keyframes sliding {
+    30% {
+      transform: translateX(0);
+    }
+    35% {
+      transform: translateX(-240px);
+    }
+    65% {
+      transform: translateX(-240px);
+    }
+    70% {
+      transform: translateX(-480px);
+    }
+    98% {
+      transform: translateX(-480px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+}
+
+#lankaContainer div:first-child{
+  /* width: 180px !important; */
+}
+
+
+</style>
+</head>
+<body>  
+
+  <div class="carousel-wrapper">
+    <div class="carousel-container">
+        <div class="carousel">
+        <div class="image-one">
+        <img src='https://images.unsplash.com/photo-1480936600919-bffa6b7ecf1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60' />
+        <h1>${stateData.name}</h1>
+        </div>
+        <div class="image-two">
+          <img src='https://images.unsplash.com/photo-1475053081036-c8eb31d187b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60' />
+          <h1>${stateData.name}</h1>
+        </div>
+          <div class="image-three">
+          <img src='https://images.unsplash.com/photo-1525278070609-779c7adb7b71?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60' />
+          <h1>${stateData.name}</h1>
+          </div>
+      </div>
+    </div>
+  </div>
+    
+    <div id="container"></div>
+    <div id="lankaContainer"></div>
+  <script>
+
+const urls = ['https://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.topo.json',
+    'https://code.highcharts.com/mapdata/countries/bd/bd-all.topo.json',
+    'https://code.highcharts.com/mapdata/countries/bt/bt-all.topo.json'
+];
+
+// const promises = urls.map(url => fetch(url));
+
+const arrayOfResponses = async () => {
+    let finArr = []
+    await Promise.all(
+    urls.map((url) =>
+    {
+        // console.log('url: ', url)
+        fetch(url)
+            .then((res) => {
+                // console.log('res: ', res.json())
+                // finArr.push()
+                res.json()
+            })
+    }
+    )
+);
+console.log('sdsadasdasd: ', finArr)
+}
+
+// arrayOfResponses()
+
+
+
+
+    (async () => {
+
+const topologyIndia = await fetch(
+    'https://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.topo.json'
+).then(response => response.json());
+
+const topologyLanka = await fetch(
+        'https://code.highcharts.com/mapdata/countries/lk/lk-all.topo.json'
+    ).then(response => response.json());
+
+// Prepare demo data. The data is joined to map using value of 'hc-key'
+// property by default. See API docs for 'joinBy' for more info on linking
+// data and map.
+const dataIndia = [
+    ['madhya pradesh', 10], ['uttar pradesh', 11], ['karnataka', 62, 'tretretert'],
+    ['nagaland', 13], ['bihar', 14], ['lakshadweep', 15],
+    ['andaman and nicobar', 16], ['assam', 17], ['west bengal', 18],
+    ['puducherry', 19], ['daman and diu', 20], ['gujarat', 21],
+    ['rajasthan', 22], ['dadara and nagar havelli', 23],
+    ['chhattisgarh', 24], ['tamil nadu', 25], ['chandigarh', 26],
+    ['punjab', 27], ['haryana', 28], ['andhra pradesh', 29],
+    ['maharashtra', 30], ['himachal pradesh', 31], ['meghalaya', 32],
+    ['kerala', 33], ['telangana', 34], ['mizoram', 35], ['tripura', 36],
+    ['manipur', 37], ['arunanchal pradesh', 38], ['jharkhand', 39],
+    ['goa', 40], ['nct of delhi', 41], ['odisha', 42],
+    ['jammu and kashmir', 43], ['sikkim', 44], ['uttarakhand', 45]
+];
+
+const dataLanka = [
+        ['lk-bc', 10], ['lk-mb', 11], ['lk-ja', 12], ['lk-kl', 13],
+        ['lk-ky', 14], ['lk-mt', 15], ['lk-nw', 16], ['lk-ap', 17],
+        ['lk-pr', 18], ['lk-tc', 19], ['lk-ad', 20], ['lk-va', 21],
+        ['lk-mp', 22], ['lk-kg', 23], ['lk-px', 24], ['lk-rn', 25],
+        ['lk-gl', 26], ['lk-hb', 27], ['lk-mh', 28], ['lk-bd', 29],
+        ['lk-mj', 30], ['lk-ke', 31], ['lk-co', 32], ['lk-gq', 33],
+        ['lk-kt', 34]
+    ];
+
+const statesData = [
+    {
+        name: 'Andhra Pradesh',
+        text: 'Some text about Andhra Pradesh',
+        image: './poster.png'
+    },
+    {
+        name: 'karnataka',
+        text: 'Some text about karnataka',
+        image: './sample.jpg'
+    },
+]
+
+function customTooltipFormatter(stateData) {
+    console.log('stateData: ', stateData)
+    return '<div class="tooltip-container">' +
+        '<h3>' + stateData.name + '</h3>' +
+        '<div class="image-carousel">' +
+            
+            `<div class="carousel-wrapper">
+        <div class="carousel-container">
+            <div class="carousel">
+            <div class="image-one">
+            <img src='https://images.unsplash.com/photo-1480936600919-bffa6b7ecf1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60' />
+            <h1>${stateData.name}</h1>
+            </div>
+            <div class="image-two">
+              <img src='https://images.unsplash.com/photo-1475053081036-c8eb31d187b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60' />
+              <h1>${stateData.name}</h1>
+            </div>
+              <div class="image-three">
+              <img src='https://images.unsplash.com/photo-1525278070609-779c7adb7b71?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60' />
+              <h1>${stateData.name}</h1>
+              </div>
+          </div>
+        </div>
+      </div>`
+        '</div>' +  
+    '</div>'
+}
+
+
+// Create the chart for India
+Highcharts.mapChart('container', 
+{
+    chart: {
+        map: topologyIndia
+    },
+
+    title: {
+        text: 'Bharatavarsha'
+    },
+
+    // subtitle: {
+    //     text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.topo.json">Bharatavarsha</a>'
+    // },
+
+    mapNavigation: {
+        enabled: true,
+        buttonOptions: {
+            verticalAlign: 'bottom'
+        }
+    },
+
+    // colorAxis: {
+    //     min: 0
+    // },
+
+    series: [{
+        data: dataIndia,
+        name: '',
+        states: {
+            hover: {
+                color: '#FF540A'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.name}'
+        }
+    }],
+
+    // tooltip: {
+    //         backgroundColor: '#ffffff',
+    //         borderWidth: 0,
+    //         shadow: false,
+    //         useHTML: true,
+    //             headerFormat: '<span style="font-size:10px">{series.name}</span><br/>',
+    //             pointFormat: '{point.name}: <b>{point.value:.1f} individuals/km²</b><br/>',
+    //             footerFormat: '<span style="font-size:10px">Source: Wikipedia</span><br/>',
+    //             // formatter: customTooltipFormatter('{point}'),
+    //             backgroundColor: {
+    //                 linearGradient: [0, 0, 0, 60],
+    //                 stops: [
+    //                     [0, '#FFFFFF'],
+    //                     [1, '#E0E0E0']
+    //                 ]
+    //             },
+    //             borderWidth: 1,
+    //             borderColor: '#AAA',
+    //             borderRadius: 2
+    //         },
+
+    tooltip: {
+        useHTML: true,
+        formatter: function() {
+            console.log('this: ', this.point.name, statesData)
+            const stateData = statesData.find(state => state.name.toLowerCase() === this.point.name.toLowerCase());
+            console.log('stateData: ',stateData)
+            // return `
+            // <h1>${stateData.name}</h1>
+            // <div style="width: 100px; height: 100px; background-color: blue">
+            //     <img class="ttImage" src="${stateData.image}" alt="${stateData.name}" width="200px" height="200px" />
+            //     </div>
+                
+            //     <br>
+            //     ${stateData.text}
+            // `;
+            return customTooltipFormatter(stateData)
+        }
+    }
+});
+
+
+// Create the chart for India
+Highcharts.mapChart('lankaContainer', 
+{
+    chart: {
+        map: topologyLanka
+    },
+    series: [{
+        data: dataLanka,
+        name: '',
+        states: {
+            hover: {
+                color: '#FF540A'
+            }
+        }
+    }],
+
+    tooltip: {
+        useHTML: true,
+        formatter: function() {
+            console.log('this: ', this.point.name, statesData)
+            const stateData = statesData.find(state => state.name.toLowerCase() === this.point.name.toLowerCase());
+            console.log('stateData: ',stateData)
+            return customTooltipFormatter(stateData)
+        }
+    }
+});
+
+
+
+})();
+
+  </script>
+</body>
+</html>
